@@ -46,9 +46,4 @@ class UserController extends Controller
 
         $user->sendEmailVerificationNotification();
     }
-
-    public function updatePassword()
-    {
-        
-    }
 }

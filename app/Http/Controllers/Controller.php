@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 abstract class Controller
 {
-    public function sendResponse(
+    public static function sendResponse(
         mixed $data,
         string $message = null,
         bool $success = true,
