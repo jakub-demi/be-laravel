@@ -9,7 +9,7 @@ use Illuminate\Support\ServiceProvider;
 class RepositoryServiceProvider extends ServiceProvider
 {
     public array $bindings = [
-        OrderRepository::class => OrderRepositoryInterface::class,
+        OrderRepositoryInterface::class => OrderRepository::class,
     ];
 
     public function register(): void
@@ -19,7 +19,7 @@ class RepositoryServiceProvider extends ServiceProvider
 
     private function bindRepositories(): void
     {
-        foreach ($this->bindings as $repository => $interface) {
+        foreach ($this->bindings as $interface => $repository) {
             $this->app->bind($interface, $repository);
         }
     }
