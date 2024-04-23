@@ -15,9 +15,11 @@ class OrderService
         return Order::create($data);
     }
 
-    public function update(int $id, array $data)
+    public function update(int $id, array $data): Model|Builder
     {
-        return Order::where("id", "=", $id)->update($data);
+        $order = Order::where("id", "=", $id);
+        $order->update($data);
+        return $order->first();
     }
 
     public function delete(int $id): int
