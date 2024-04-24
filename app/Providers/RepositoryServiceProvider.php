@@ -3,7 +3,7 @@
 namespace App\Providers;
 
 use App\Interfaces\OrderRepositoryInterface;
-use App\OrderRepository;
+use App\Repositories\OrderRepository;
 use Illuminate\Support\ServiceProvider;
 
 class RepositoryServiceProvider extends ServiceProvider

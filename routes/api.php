@@ -12,4 +12,5 @@ Route::middleware("auth:sanctum")->group(function () {
     });
 
     Route::apiResource("orders", OrderController::class);
+    Route::apiResource("order-items", OrderItemController::class);
 });
