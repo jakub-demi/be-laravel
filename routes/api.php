@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -9,4 +10,6 @@ Route::middleware("auth:sanctum")->group(function () {
     Route::prefix("/user")->group(function () {
        Route::post("/update-profile", [UserController::class, "updateUserProfile"]);
     });
+
+    Route::apiResource("orders", OrderController::class);
 });
