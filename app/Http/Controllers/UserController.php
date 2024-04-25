@@ -12,7 +12,7 @@ class UserController extends Controller
 {
     public function user(): JsonResponse
     {
-        return $this->sendResponse(new UserResource(request()->user()));
+        return self::sendResponse(new UserResource(request()->user()));
     }
 
     public function updateUserProfile(UpdateUserProfileRequest $request): JsonResponse
@@ -32,7 +32,7 @@ class UserController extends Controller
             ]);
         }
 
-        return $this->sendResponse([], "Profile information was updated.");
+        return self::sendResponse([], "Profile information was updated.");
     }
 
     protected function updateVerifiedUser(User $user, array $input): void

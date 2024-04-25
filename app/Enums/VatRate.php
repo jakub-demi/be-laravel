@@ -2,18 +2,18 @@
 
 namespace App\Enums;
 
-use ReflectionClass;
-
-enum VatRate
+enum VatRate: string
 {
-    const ZERO_PERCENT = 0;
-    const FIVE_PERCENT = 0.05;
-    const TEN_PERCENT = 0.1;
-    const TWENTY_PERCENT = 0.2;
+    case ZERO_PERCENT = "0";
+    case FIVE_PERCENT = "0.05";
+    case TEN_PERCENT = "0.1";
+    case TWENTY_PERCENT = "0.2";
 
-//    public static function values(): array
-//    {
-//        //return (new ReflectionClass(self::class))->getConstants();
-//        return self::cases();
-//    }
+    /**
+     * Get VatRate cases as array of values.
+    */
+    public static function values(): array
+    {
+        return array_column(self::cases(), "value");
+    }
 }
