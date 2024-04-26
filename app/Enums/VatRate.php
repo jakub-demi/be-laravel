@@ -14,6 +14,10 @@ enum VatRate: string
     */
     public static function values(): array
     {
-        return array_column(self::cases(), "value");
+        $values = [];
+        foreach(array_column(self::cases(), "value") as $case) {
+            $values[] = (float)$case;
+        }
+        return $values;
     }
 }

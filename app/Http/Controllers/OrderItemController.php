@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\VatRate;
 use App\Http\Requests\Form\CreateOrderItemRequest;
 use App\Http\Requests\Form\UpdateOrderItemRequest;
 use App\Http\Resources\OrderItemResource;
@@ -9,6 +10,7 @@ use App\Interfaces\OrderItemRepositoryInterface;
 use App\Services\OrderItemService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class OrderItemController extends Controller
 {
@@ -19,6 +21,7 @@ class OrderItemController extends Controller
 
     public function index(Request $request, int $orderId)
     {
+        Log::info("OrderID - INDEX ITEMS", [$orderId]);
         $resource = OrderItemResource::collection($this->orderItemRepository->getAllByOrderId($orderId));
         self::sendResponse($resource);
     }
@@ -54,5 +57,10 @@ class OrderItemController extends Controller
         $orderItemName = $this->orderItemService->delete($id);
 
         return self::sendResponse([], "Order item '{$orderItemName}' was removed.");
+    }
+
+    public function vatRates(): JsonResponse
+    {
+        return self::sendResponse(VatRate::values());
     }
 }
