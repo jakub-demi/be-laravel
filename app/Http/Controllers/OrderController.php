@@ -19,12 +19,12 @@ class OrderController extends Controller
 
     public function index(): JsonResponse
     {
-        return $this->sendResponse(OrderResource::collection($this->orderRepository->getAll()));
+        return self::sendResponse(OrderResource::collection($this->orderRepository->getAll()));
     }
 
     public function show(Request $request, int $id): JsonResponse
     {
-        return $this->sendResponse((new OrderResource($this->orderRepository->getById($id))));
+        return self::sendResponse((new OrderResource($this->orderRepository->getById($id))));
     }
 
     public function store(CreateOrderRequest $request): JsonResponse
@@ -34,7 +34,7 @@ class OrderController extends Controller
         $order = $this->orderService->store($data);
         $resource = (new OrderResource($order));
 
-        return $this->sendResponse($resource, "Order #{$order->order_number} was created.");
+        return self::sendResponse($resource, "Order #{$order->order_number} was created.");
     }
 
     public function update(UpdateOrderRequest $request, int $id): JsonResponse
@@ -44,13 +44,13 @@ class OrderController extends Controller
         $order = $this->orderService->update($id, $data);
         $resource = (new OrderResource($order));
 
-        return $this->sendResponse($resource, "Order #{$order->order_number} was updated.");
+        return self::sendResponse($resource, "Order #{$order->order_number} was updated.");
     }
 
     public function destroy(Request $request, int $id): JsonResponse
     {
         $orderNumber = $this->orderService->delete($id);
 
-        return $this->sendResponse([], "Order #{$orderNumber} was removed.");
+        return self::sendResponse([], "Order #{$orderNumber} was removed.");
     }
 }
