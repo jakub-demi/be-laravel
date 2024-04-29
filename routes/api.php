@@ -20,4 +20,7 @@ Route::middleware("auth:sanctum")->group(function () {
     Route::post("/order-items/store/{orderId}", [OrderItemController::class, "store"])->name("order-items.store");
     Route::apiResource("order-items", OrderItemController::class)->only(["show", "update", "destroy"]);
     Route::get("/vat-rates", [OrderItemController::class, "vatRates"])->name("order-items.vat-rates");
+
+    //! Users
+    Route::apiResource("users", UserController::class);
 });
