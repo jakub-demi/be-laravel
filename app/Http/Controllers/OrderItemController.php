@@ -10,7 +10,6 @@ use App\Interfaces\OrderItemRepositoryInterface;
 use App\Services\OrderItemService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 
 class OrderItemController extends Controller
 {
@@ -19,17 +18,16 @@ class OrderItemController extends Controller
         private readonly OrderItemService $orderItemService
     ){}
 
-    public function index(Request $request, int $orderId)
+    public function index(Request $request, int $orderId): JsonResponse
     {
-        Log::info("OrderID - INDEX ITEMS", [$orderId]);
         $resource = OrderItemResource::collection($this->orderItemRepository->getAllByOrderId($orderId));
-        self::sendResponse($resource);
+        return self::sendResponse($resource);
     }
 
-    public function show(Request $request, int $id)
+    public function show(Request $request, int $id): JsonResponse
     {
         $resource = new OrderItemResource($this->orderItemRepository->getById($id));
-        self::sendResponse($resource);
+        return self::sendResponse($resource);
     }
 
     public function store(CreateOrderItemRequest $request, int $orderId): JsonResponse

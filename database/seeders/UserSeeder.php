@@ -17,7 +17,7 @@ class UserSeeder extends Seeder
         $user = User::make([
             'firstname' => 'Min',
             'lastname' => 'Ad',
-            'email' => 'admin@admin.a',
+            'email' => 'admin@a',
             'is_admin' => 1,
         ]);
 

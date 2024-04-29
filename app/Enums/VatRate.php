@@ -11,6 +11,8 @@ enum VatRate: string
 
     /**
      * Get VatRate cases as array of values.
+     *
+     * @return array<float>
     */
     public static function values(): array
     {
