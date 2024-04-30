@@ -19,7 +19,7 @@ class OrderItemService
     {
         $orderItem = OrderItem::find($id);
         $orderItem->update($data);
-        return $orderItem->first();
+        return $orderItem;
     }
 
     public function delete(int $id): string
