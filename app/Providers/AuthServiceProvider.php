@@ -27,7 +27,7 @@ class AuthServiceProvider extends ServiceProvider
             $spa_url = env('SPA_URL');
             $email = $notifiable->getEmailForPasswordReset();
 
-            return "$spa_url/login/?pwdres=1&token=$token&email=$email"; //todo:dev adjust by target URL on FE
+            return "$spa_url/login/?pwdres&token=$token&email=$email";
         });
     }
 }
