@@ -18,6 +18,7 @@ class UpdateUserProfileRequest extends FormRequest
             'email' => [ 'required', 'string', 'email', 'max:255', Rule::unique('users')->ignore(auth()->user()->id) ],
             'firstname' => [ 'required', 'string', 'max:255' ],
             'lastname' => [ 'required', 'string', 'max:255' ],
+            'avatar' => [ 'nullable', 'image', 'mimes:jfif,jpeg,jpg,png', 'max:10486' ]
         ];
     }
 }

@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Actions\Fortify\CreateNewUser;
 use App\Http\Requests\Form\CreateUserRequest;
 use App\Http\Requests\Form\UpdateUserProfileRequest;
 use App\Http\Requests\Form\UpdateUserRequest;
 use App\Http\Resources\UserResource;
 use App\Interfaces\UserRepositoryInterface;
 use App\Models\User;
+use App\Services\ImageService;
 use App\Services\UserService;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\JsonResponse;
@@ -19,6 +19,7 @@ class UserController extends Controller
     public function __construct(
         private readonly UserRepositoryInterface $userRepository,
         private readonly UserService $userService,
+        private readonly ImageService $imageService,
     ){}
 
     public function user(): JsonResponse
@@ -43,7 +44,9 @@ class UserController extends Controller
             ]);
         }
 
-        return self::sendResponse([], "Profile information was updated.");
+        $this->imageService->uploadImage($request, $user, 'avatar', 'profile-avatars', 'profile-avatar');
+
+        return self::sendResponse(new UserResource($user), "Profile information was updated.");
     }
 
     protected function updateVerifiedUser(User $user, array $input): void
@@ -75,7 +78,7 @@ class UserController extends Controller
         $user = $this->userService->store($data);
         $resource = new UserResource($user);
 
-        return self::sendResponse($resource, "User '{$user->firstname} {$user->lastname}' was created.");
+        return self::sendResponse($resource, "User '{$user->full_name}' was created.");
     }
 
     public function update(UpdateUserRequest $request, int $id): JsonResponse
@@ -85,7 +88,7 @@ class UserController extends Controller
         $user = $this->userService->update($id, $data);
         $resource = (new UserResource($user));
 
-        return self::sendResponse($resource, "User '{$user->firstname} {$user->lastname}' was updated.");
+        return self::sendResponse($resource, "User '{$user->full_name}' was updated.");
     }
 
     public function destroy(Request $request, int $id): JsonResponse
