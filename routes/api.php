@@ -13,12 +13,18 @@ Route::middleware("auth:sanctum")->group(function () {
     });
 
     //! Orders
-    Route::apiResource("orders", OrderController::class);
+    Route::get("/orders", [OrderController::class, "index"])->name("orders.index");
+    Route::get("/orders/{order}", [OrderController::class, "show"])->name("orders.show");
 
-    //! Order Items
-    Route::get("/order-items/index/{orderId}", [OrderItemController::class, "index"])->name("order-items.index");
-    Route::post("/order-items/store/{orderId}", [OrderItemController::class, "store"])->name("order-items.store");
-    Route::apiResource("order-items", OrderItemController::class)->only(["show", "update", "destroy"]);
+    Route::middleware("orders-access")->group(function () {
+        Route::apiResource("orders", OrderController::class)->only(["store", "update", "destroy"]);
+
+        //! Order Items
+        Route::prefix("orders/{order}")->group(function () {
+            Route::apiResource("order-items", OrderItemController::class);
+        });
+    });
+
     Route::get("/vat-rates", [OrderItemController::class, "vatRates"])->name("order-items.vat-rates");
 
     //! Users
