@@ -14,7 +14,8 @@ class UserResource extends JsonResource
             "firstname" => $this->firstname,
             "lastname" => $this->lastname,
             "email" => $this->email,
-            "is_admin" => $this->is_admin
+            "is_admin" => $this->is_admin,
+            "avatar" => new ImageResource($this->images->where("type", "profile-avatar")->first()),
         ];
     }
 }

@@ -24,7 +24,7 @@ class UserService
     public function delete(int $id): string
     {
         $user = User::find($id);
-        $userFullName = "{$user->firstname} {$user->lastname}";
+        $userFullName = $user->full_name;
         $user->delete();
         return $userFullName;
     }
