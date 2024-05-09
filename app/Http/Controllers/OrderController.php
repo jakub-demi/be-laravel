@@ -39,7 +39,7 @@ class OrderController extends Controller
 
     public function update(UpdateOrderRequest $request, int $id): JsonResponse
     {
-        $data = $request->only("due_date");
+        $data = $request->only("due_date", "payment_date", "created_at");
 
         $order = $this->orderService->update($id, $data);
         $resource = (new OrderResource($order));
