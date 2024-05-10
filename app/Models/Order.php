@@ -38,7 +38,9 @@ class Order extends Model
     protected $fillable = [
         "order_number",
         "due_date",
-        "payment_date"
+        "payment_date",
+        "customer_name",
+        "customer_address",
     ];
 
     public function users(): BelongsToMany

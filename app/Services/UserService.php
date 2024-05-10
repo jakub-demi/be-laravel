@@ -16,14 +16,14 @@ class UserService
 
     public function update(int $id, array $data): Collection|Model|null
     {
-        $user = User::find($id);
+        $user = User::findOrFail($id);
         $user->update($data);
         return $user;
     }
 
     public function delete(int $id): string
     {
-        $user = User::find($id);
+        $user = User::findOrFail($id);
         $userFullName = $user->full_name;
         $user->delete();
         return $userFullName;

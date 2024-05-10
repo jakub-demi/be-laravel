@@ -13,11 +13,10 @@ Route::middleware("auth:sanctum")->group(function () {
     });
 
     //! Orders
-    Route::get("/orders", [OrderController::class, "index"])->name("orders.index");
-    Route::get("/orders/{order}", [OrderController::class, "show"])->name("orders.show");
+    Route::apiResource("orders", OrderController::class)->only(["index", "show", "store"]);
 
     Route::middleware("orders-access")->group(function () {
-        Route::apiResource("orders", OrderController::class)->only(["store", "update", "destroy"]);
+        Route::apiResource("orders", OrderController::class)->only(["update", "destroy"]);
 
         //! Order Items
         Route::prefix("orders/{order}")->group(function () {

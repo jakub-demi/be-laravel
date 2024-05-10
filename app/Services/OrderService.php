@@ -12,21 +12,35 @@ class OrderService
     public function store(array $data): Model|Builder
     {
         $data['due_date'] = Carbon::parse($data['due_date'])->toDateTimeString();
-        return Order::create($data);
+        $orderUsers = $this->handleData($data);
+        $order = Order::create($data);
+        $order->users()->attach($orderUsers);
+        return $order;
     }
 
     public function update(int $id, array $data): Model|Builder
     {
-        $order = Order::where("id", "=", $id);
+        $order = Order::findOrFail($id);
+        $orderUsers = $this->handleData($data);
         $order->update($data);
-        return $order->first();
+        $order->users()->sync($orderUsers);
+        return $order;
     }
 
     public function delete(int $id): int
     {
-        $order = Order::where("id", "=", $id)->first();
+        $order = Order::findOrFail($id);
         $orderNumber = $order->order_number;
+        $order->users()->detach();
         $order->delete();
         return $orderNumber;
+    }
+
+    private function handleData(array &$data): array
+    {
+        $orderUsers = $data["order_users"];
+        unset($data["order_users"]);
+
+        return $orderUsers;
     }
 }

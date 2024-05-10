@@ -17,8 +17,11 @@ class CreateOrderRequest extends FormRequest
             "due_date" => [
                 "required",
                 "date",
-                "after:today"
+                "after:today",
             ],
+            "order_users" => "nullable|array",
+            "customer_name" => "required|string|max:255",
+            "customer_address" => "required|string|max:255",
         ];
     }
 }
