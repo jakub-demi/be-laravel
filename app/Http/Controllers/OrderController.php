@@ -29,7 +29,7 @@ class OrderController extends Controller
 
     public function store(CreateOrderRequest $request): JsonResponse
     {
-        $data = $request->only("due_date");
+        $data = $request->only("due_date", "order_users", "customer_name", "customer_address");
 
         $order = $this->orderService->store($data);
         $resource = (new OrderResource($order));
@@ -39,7 +39,7 @@ class OrderController extends Controller
 
     public function update(UpdateOrderRequest $request, int $id): JsonResponse
     {
-        $data = $request->only("due_date");
+        $data = $request->only("due_date", "payment_date", "created_at", "order_users", "customer_name", "customer_address");
 
         $order = $this->orderService->update($id, $data);
         $resource = (new OrderResource($order));

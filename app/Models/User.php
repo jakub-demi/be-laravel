@@ -3,6 +3,8 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Interfaces\UserRepositoryInterface;
+use App\Repositories\UserRepository;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
@@ -12,6 +14,15 @@ use Illuminate\Notifications\Notifiable;
 class User extends Authenticatable
 {
     use HasFactory, Notifiable;
+
+    private readonly UserRepositoryInterface $userRepository;
+
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+
+        $this->userRepository = new UserRepository();
+    }
 
     /**
      * The attributes that are mass assignable.
@@ -46,6 +57,7 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'is_admin' => 'boolean',
         ];
     }
 
@@ -64,5 +76,10 @@ class User extends Authenticatable
     public function getFullNameAttribute(): string
     {
         return "{$this->firstname} {$this->lastname}";
+    }
+
+    public function getAvatarImageAttribute(): ?string
+    {
+        return $this->userRepository->getUserAvatar($this);
     }
 }

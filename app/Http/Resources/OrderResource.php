@@ -17,6 +17,10 @@ class OrderResource extends JsonResource
             "due_date" => $this->due_date,
             "payment_date" => $this->payment_date,
             "created_at" => $this->created_at,
+            "has_access" => $this->hasAccess(),
+            "customer_name" => $this->customer_name,
+            "customer_address" => $this->customer_address,
+            "order_users" => UserResource::collection($this->getOrderUsers()),
         ];
     }
 }
