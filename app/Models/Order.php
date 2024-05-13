@@ -68,4 +68,13 @@ class Order extends Model
     {
         return $this->orderRepository->getOrderUsers($this);
     }
+
+    public function getTotalCostWithVatAttribute(): float
+    {
+        $cost = 0.0;
+        foreach($this->order_items as $item) {
+            $cost += $item->cost_with_vat;
+        }
+        return $cost;
+    }
 }
