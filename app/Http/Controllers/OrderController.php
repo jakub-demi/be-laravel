@@ -7,8 +7,10 @@ use App\Http\Requests\Form\UpdateOrderRequest;
 use App\Http\Resources\OrderResource;
 use App\Interfaces\OrderRepositoryInterface;
 use App\Services\OrderService;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class OrderController extends Controller
 {
@@ -52,5 +54,14 @@ class OrderController extends Controller
         $orderNumber = $this->orderService->delete($id);
 
         return self::sendResponse([], "Order #{$orderNumber} was removed.");
+    }
+
+    public function generatePdf(Request $request, int $id): Response
+    {
+        $order = $this->orderRepository->getById($id);
+
+        $pdf = Pdf::loadView("pdf.order-pdf", compact("order"));
+
+        return $pdf->stream("order.pdf");
     }
 }

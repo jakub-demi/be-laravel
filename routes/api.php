@@ -14,6 +14,7 @@ Route::middleware("auth:sanctum")->group(function () {
 
     //! Orders
     Route::apiResource("orders", OrderController::class)->only(["index", "show", "store"]);
+    Route::get("/orders/{order}/generate-pdf", [OrderController::class, "generatePdf"]);
 
     Route::middleware("orders-access")->group(function () {
         Route::apiResource("orders", OrderController::class)->only(["update", "destroy"]);
