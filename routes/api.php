@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\OrderItemController;
 use App\Http\Controllers\UserController;
@@ -16,6 +17,7 @@ Route::middleware("auth:sanctum")->group(function () {
     Route::apiResource("orders", OrderController::class)->only(["index", "show", "store"]);
     Route::get("/orders/{order}/generate-pdf", [OrderController::class, "generatePdf"]);
 
+    //! Orders Access Middleware Routes
     Route::middleware("orders-access")->group(function () {
         Route::apiResource("orders", OrderController::class)->only(["update", "destroy"]);
 
@@ -29,4 +31,13 @@ Route::middleware("auth:sanctum")->group(function () {
 
     //! Users
     Route::apiResource("users", UserController::class);
+
+    //! Categories
+    Route::apiResource("order-categories", CategoryController::class)->only("index", "show");
+
+    //! Admin Access Middleware Routes
+    Route::middleware("admin-access")->group(function () {
+        //! Order Categories
+        Route::apiResource("order-categories", CategoryController::class)->except("index", "show");
+    });
 });
