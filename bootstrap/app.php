@@ -17,8 +17,6 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->statefulApi();
         $middleware->alias([
             "admin-access" => AdminAccessMiddleware::class,
-        ]);
-        $middleware->alias([
             "orders-access" => OrdersAccessMiddleware::class,
         ]);
     })

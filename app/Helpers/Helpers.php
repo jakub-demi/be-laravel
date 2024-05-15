@@ -20,15 +20,17 @@ class Helpers
         $slug = Str::slug($str);
         $suffix = "";
 
-        $slugExists = $model::where($column, "LIKE", "{$slug}%")->orderBy($column, "desc")->first()?->slug;
+        $slugExists = $model::where($column, $slug)->exists();
 
         if ($slugExists) {
-            /** @var string $slugExists */
-            $existingSlugParts = explode("-", $slugExists);
+            $i = 1;
+            while(true) {
+                $candidateSlug = "{$slug}-{$i}";
+                if (!$model::where($column, $candidateSlug)->exists()) break;
 
-            $suffix = (!empty($existingSlugParts) && is_numeric(last($existingSlugParts)) && (int)last($existingSlugParts) == last($existingSlugParts))
-                ? "-" . ((int)last($existingSlugParts) + 1)
-                : "-1";
+                $i++;
+            }
+            $suffix = "-{$i}";
         }
 
         return "{$slug}{$suffix}";
