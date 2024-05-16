@@ -11,4 +11,6 @@ interface CategoryRepositoryInterface
     public function getAll(): Collection;
 
     public function getById(int $id): Model|Collection|Builder|array|null;
+
+    public function getAllIds(): array;
 }

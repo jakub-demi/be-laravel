@@ -24,10 +24,7 @@ class Helpers
 
         if ($slugExists) {
             $i = 1;
-            while(true) {
-                $candidateSlug = "{$slug}-{$i}";
-                if (!$model::where($column, $candidateSlug)->exists()) break;
-
+            while($model::where($column, "{$slug}-{$i}")->exists()) {
                 $i++;
             }
             $suffix = "-{$i}";

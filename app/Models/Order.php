@@ -37,6 +37,7 @@ class Order extends Model
      * @var array<int, string>
      */
     protected $fillable = [
+        "category_id",
         "order_number",
         "due_date",
         "payment_date",
