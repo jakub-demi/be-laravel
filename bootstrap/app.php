@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\AdminAccessMiddleware;
 use App\Http\Middleware\OrdersAccessMiddleware;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -15,6 +16,7 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->statefulApi();
         $middleware->alias([
+            "admin-access" => AdminAccessMiddleware::class,
             "orders-access" => OrdersAccessMiddleware::class,
         ]);
     })

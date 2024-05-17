@@ -21,6 +21,7 @@ class OrderResource extends JsonResource
             "customer_name" => $this->customer_name,
             "customer_address" => $this->customer_address,
             "order_users" => UserResource::collection($this->getOrderUsers()),
+            "category" => new CategoryResource($this->category),
         ];
     }
 }

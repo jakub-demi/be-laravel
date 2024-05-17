@@ -2,9 +2,11 @@
 
 namespace App\Providers;
 
+use App\Interfaces\CategoryRepositoryInterface;
 use App\Interfaces\OrderItemRepositoryInterface;
 use App\Interfaces\OrderRepositoryInterface;
 use App\Interfaces\UserRepositoryInterface;
+use App\Repositories\CategoryRepository;
 use App\Repositories\OrderItemRepository;
 use App\Repositories\OrderRepository;
 use App\Repositories\UserRepository;
@@ -15,7 +17,8 @@ class RepositoryServiceProvider extends ServiceProvider
     public array $bindings = [
         OrderRepositoryInterface::class => OrderRepository::class,
         OrderItemRepositoryInterface::class => OrderItemRepository::class,
-        UserRepositoryInterface::class => UserRepository::class
+        UserRepositoryInterface::class => UserRepository::class,
+        CategoryRepositoryInterface::class => CategoryRepository::class,
     ];
 
     public function register(): void
