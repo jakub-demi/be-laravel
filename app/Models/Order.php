@@ -60,6 +60,11 @@ class Order extends Model
         return $this->belongsTo(Category::class);
     }
 
+    public function status_histories(): HasMany
+    {
+        return $this->hasMany(OrderStatusHistory::class);
+    }
+
     public function hasAccess(): bool
     {
         $user = auth()->user();
@@ -83,5 +88,10 @@ class Order extends Model
             $cost += $item->cost_with_vat;
         }
         return $cost;
+    }
+
+    public function getStatusAttribute(): string
+    {
+        return $this->status_histories()->latest()->first()->status;
     }
 }

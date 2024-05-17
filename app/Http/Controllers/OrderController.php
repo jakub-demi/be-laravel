@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\OrderStatus;
 use App\Http\Requests\Form\CreateOrderRequest;
 use App\Http\Requests\Form\UpdateOrderRequest;
 use App\Http\Resources\OrderResource;
@@ -63,5 +64,10 @@ class OrderController extends Controller
         $pdf = Pdf::loadView("pdf.order-pdf", compact("order"));
 
         return $pdf->stream("order.pdf");
+    }
+
+    public function orderStatuses(): JsonResponse
+    {
+        return self::sendResponse(OrderStatus::cases());
     }
 }
