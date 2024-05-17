@@ -5,7 +5,6 @@ namespace App\Observers;
 use App\Helpers\Helpers;
 use App\Models\Category;
 use App\Services\CacheService;
-use Illuminate\Support\Facades\Redis;
 
 class CategoryObserver
 {
