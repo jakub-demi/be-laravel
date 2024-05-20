@@ -20,8 +20,10 @@ class OrderResource extends JsonResource
             "has_access" => $this->hasAccess(),
             "customer_name" => $this->customer_name,
             "customer_address" => $this->customer_address,
-            "order_users" => UserResource::collection($this->getOrderUsers()),
+            "order_users" => UserResource::collection($this->users()->get()),
             "category" => new CategoryResource($this->category),
+            "current_status" => new OrderStatusResource($this->status),
+            "status_histories" => OrderStatusHistoryResource::collection($this->status_histories),
         ];
     }
 }

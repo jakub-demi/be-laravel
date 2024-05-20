@@ -2,7 +2,6 @@
 
 namespace App\Enums;
 
-use App\Services\CacheService;
 use Illuminate\Support\Str;
 
 enum OrderStatus: string

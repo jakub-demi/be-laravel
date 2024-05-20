@@ -6,6 +6,7 @@ use App\Enums\OrderStatus;
 use App\Http\Requests\Form\CreateOrderRequest;
 use App\Http\Requests\Form\UpdateOrderRequest;
 use App\Http\Resources\OrderResource;
+use App\Http\Resources\OrderStatusResource;
 use App\Interfaces\OrderRepositoryInterface;
 use App\Services\OrderService;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -68,6 +69,6 @@ class OrderController extends Controller
 
     public function orderStatuses(): JsonResponse
     {
-        return self::sendResponse(OrderStatus::cases());
+        return self::sendResponse(OrderStatusResource::collection(OrderStatus::cases()));
     }
 }

@@ -19,9 +19,4 @@ class OrderRepository implements OrderRepositoryInterface
     {
         return Order::where("id", "=", $id)->first();
     }
-
-    public function getOrderUsers(Order $order): Collection
-    {
-        return $order->users()->get();
-    }
 }

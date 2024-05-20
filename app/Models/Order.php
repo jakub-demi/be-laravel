@@ -2,13 +2,10 @@
 
 namespace App\Models;
 
-use App\Interfaces\OrderRepositoryInterface;
 use App\Interfaces\UserRepositoryInterface;
 use App\Observers\OrderObserver;
-use App\Repositories\OrderRepository;
 use App\Repositories\UserRepository;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -21,14 +18,12 @@ class Order extends Model
     use HasFactory;
 
     private readonly UserRepositoryInterface $userRepository;
-    private readonly OrderRepositoryInterface $orderRepository;
 
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
 
         $this->userRepository = new UserRepository();
-        $this->orderRepository = new OrderRepository();
     }
 
     /**
@@ -76,11 +71,6 @@ class Order extends Model
         return $this->userRepository->getUsersAvatarsForOrder($this);
     }
 
-    public function getOrderUsers(): Collection
-    {
-        return $this->orderRepository->getOrderUsers($this);
-    }
-
     public function getTotalCostWithVatAttribute(): float
     {
         $cost = 0.0;
@@ -90,8 +80,8 @@ class Order extends Model
         return $cost;
     }
 
-    public function getStatusAttribute(): string
+    public function getStatusAttribute(): ?string
     {
-        return $this->status_histories()->latest()->first()->status;
+        return $this->status_histories()->latest()->first()?->status;
     }
 }
