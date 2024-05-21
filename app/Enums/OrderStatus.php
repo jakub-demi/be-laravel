@@ -6,8 +6,8 @@ use Illuminate\Support\Str;
 
 enum OrderStatus: string
 {
-    case PROCESSED = "Processed";
     case PENDING = "Pending";
+    case PROCESSED = "Processed";
 
     /**
      * Get OrderStatus color.
@@ -18,7 +18,7 @@ enum OrderStatus: string
     {
         return match($this) {
             self::PENDING => "#f44",
-            self::PROCESSED => "#4f4",
+            self::PROCESSED => "#0c0",
         };
     }
 
@@ -30,5 +30,15 @@ enum OrderStatus: string
     public function slug(): string
     {
         return Str::slug($this->value);
+    }
+
+    /**
+     * Get OrderStatus cases as array of values.
+     *
+     * @return array<string>
+     */
+    public static function values(): array
+    {
+        return array_column(self::cases(), "value");
     }
 }

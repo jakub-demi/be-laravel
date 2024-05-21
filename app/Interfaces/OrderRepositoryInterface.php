@@ -11,4 +11,6 @@ interface OrderRepositoryInterface
     public function getAll(): Collection;
 
     public function getById(int $id): Model|Builder|null;
+
+    public function getStatusHistories(int $id): Collection|array|null;
 }

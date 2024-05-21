@@ -19,4 +19,9 @@ class OrderRepository implements OrderRepositoryInterface
     {
         return Order::where("id", "=", $id)->first();
     }
+
+    public function getStatusHistories(int $id): Collection|array|null
+    {
+        return Order::find($id)?->status_histories()->latest()->get();
+    }
 }

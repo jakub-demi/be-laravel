@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\OrderStatus;
 use App\Interfaces\UserRepositoryInterface;
 use App\Observers\OrderObserver;
 use App\Repositories\UserRepository;
@@ -80,7 +81,7 @@ class Order extends Model
         return $cost;
     }
 
-    public function getStatusAttribute(): ?string
+    public function getStatusAttribute(): ?OrderStatus
     {
         return $this->status_histories()->latest()->first()?->status;
     }

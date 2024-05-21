@@ -15,10 +15,11 @@ class OrderStatusHistoryResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id' => $this->id,
-            'order_id' => $this->order_id,
-            'status' => new OrderStatusResource($this->status),
-            'created_at' => $this->created_at,
+            "id" => $this->id,
+            "order" => new OrderResource($this->order),
+            "user" => new UserResource($this->user),
+            "status" => new OrderStatusResource($this->status),
+            "created_at" => $this->created_at,
         ];
     }
 }

@@ -23,7 +23,6 @@ class OrderResource extends JsonResource
             "order_users" => UserResource::collection($this->users()->get()),
             "category" => new CategoryResource($this->category),
             "current_status" => new OrderStatusResource($this->status),
-            "status_histories" => OrderStatusHistoryResource::collection($this->status_histories),
         ];
     }
 }
