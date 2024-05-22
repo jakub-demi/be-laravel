@@ -4,6 +4,8 @@ namespace App\Repositories;
 
 use App\Interfaces\OrderRepositoryInterface;
 use App\Models\Order;
+use App\Models\OrderStatusHistory;
+use App\Services\CacheService;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
@@ -22,6 +24,9 @@ class OrderRepository implements OrderRepositoryInterface
 
     public function getStatusHistories(int $id): Collection|array|null
     {
-        return Order::find($id)?->status_histories()->latest()->get();
+        $statusHistories = Order::find($id)?->status_histories()->latest()->get();
+        $cacheKey = Order::class . ".specific.$id." . OrderStatusHistory::class . ".all";
+        CacheService::cacheCollection($cacheKey, $statusHistories);
+        return cache($cacheKey);
     }
 }
