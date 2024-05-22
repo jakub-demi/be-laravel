@@ -3,9 +3,7 @@
 namespace App\Models;
 
 use App\Enums\OrderStatus;
-use App\Interfaces\UserRepositoryInterface;
 use App\Observers\OrderObserver;
-use App\Repositories\UserRepository;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -17,15 +15,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Order extends Model
 {
     use HasFactory;
-
-    private readonly UserRepositoryInterface $userRepository;
-
-    public function __construct(array $attributes = [])
-    {
-        parent::__construct($attributes);
-
-        $this->userRepository = new UserRepository();
-    }
 
     /**
      * The attributes that are mass assignable.
@@ -65,11 +54,6 @@ class Order extends Model
     {
         $user = auth()->user();
         return $user->is_admin || $this->users()->where("users.id", "=", $user->id)->exists();
-    }
-
-    public function getUsersAvatarsForOrder(): array
-    {
-        return $this->userRepository->getUsersAvatarsForOrder($this);
     }
 
     public function getTotalCostWithVatAttribute(): float
