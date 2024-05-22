@@ -51,7 +51,11 @@ class OrderController extends Controller
         $status = $request->only("status");
 
         $order = $this->orderService->update($id, $data);
-        !empty($status) && $this->orderStatusHistoryService->changeStatus($id, $status["status"]);
+        $currentStatus = $order->status?->value;
+
+        if (!empty($status)) {
+            $status["status"] !== $currentStatus && $this->orderStatusHistoryService->changeStatus($id, $status["status"]);
+        }
 
         $resource = (new OrderResource($order));
 
