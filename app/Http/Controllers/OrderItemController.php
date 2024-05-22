@@ -24,7 +24,7 @@ class OrderItemController extends Controller
         return self::sendResponse($resource);
     }
 
-    public function show(Request $request, int $id): JsonResponse
+    public function show(Request $request, int $orderId, int $id): JsonResponse
     {
         $resource = new OrderItemResource($this->orderItemRepository->getById($id));
         return self::sendResponse($resource);
@@ -40,7 +40,7 @@ class OrderItemController extends Controller
         return self::sendResponse($resource, "Order item '{$orderItem->name}' was created.");
     }
 
-    public function update(UpdateOrderItemRequest $request, int $id): JsonResponse
+    public function update(UpdateOrderItemRequest $request, int $orderId, int $id): JsonResponse
     {
         $data = $request->only("name", "count", "cost", "vat");
 
@@ -50,7 +50,7 @@ class OrderItemController extends Controller
         return self::sendResponse($resource, "Order item '{$orderItem->name}' was updated.");
     }
 
-    public function destroy(Request $request, int $id): JsonResponse
+    public function destroy(Request $request, int $orderId, int $id): JsonResponse
     {
         $orderItemName = $this->orderItemService->delete($id);
 
