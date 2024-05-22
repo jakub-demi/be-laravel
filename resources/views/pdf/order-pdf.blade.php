@@ -258,7 +258,7 @@
         <div class="col-5" style="float: right;">
             <h2>
                 <span>Total (incl. VAT)</span>
-                <span style="float: right; margin-right: -30px;">{{$order->total_cost_with_vat}} €</span>
+                <span style="float: right; margin-right: -30px;">{{number_format($order->total_cost_with_vat, 2)}} €</span>
             </h2>
         </div>
     </div>
