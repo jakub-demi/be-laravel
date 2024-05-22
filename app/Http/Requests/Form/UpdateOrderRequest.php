@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests\Form;
 
+use App\Enums\OrderStatus;
+
 class UpdateOrderRequest extends CreateOrderRequest
 {
     public function rules(): array
@@ -19,6 +21,12 @@ class UpdateOrderRequest extends CreateOrderRequest
         $rules["created_at"] = [
             "required",
             "date",
+        ];
+        $rules["status"] = [
+            "nullable",
+            "string",
+            "max:255",
+            "in:" . implode(",", OrderStatus::values())
         ];
 
         return $rules;

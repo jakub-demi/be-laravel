@@ -2,13 +2,9 @@
 
 namespace App\Models;
 
-use App\Interfaces\OrderRepositoryInterface;
-use App\Interfaces\UserRepositoryInterface;
+use App\Enums\OrderStatus;
 use App\Observers\OrderObserver;
-use App\Repositories\OrderRepository;
-use App\Repositories\UserRepository;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -19,17 +15,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Order extends Model
 {
     use HasFactory;
-
-    private readonly UserRepositoryInterface $userRepository;
-    private readonly OrderRepositoryInterface $orderRepository;
-
-    public function __construct(array $attributes = [])
-    {
-        parent::__construct($attributes);
-
-        $this->userRepository = new UserRepository();
-        $this->orderRepository = new OrderRepository();
-    }
 
     /**
      * The attributes that are mass assignable.
@@ -60,20 +45,15 @@ class Order extends Model
         return $this->belongsTo(Category::class);
     }
 
+    public function status_histories(): HasMany
+    {
+        return $this->hasMany(OrderStatusHistory::class);
+    }
+
     public function hasAccess(): bool
     {
         $user = auth()->user();
         return $user->is_admin || $this->users()->where("users.id", "=", $user->id)->exists();
-    }
-
-    public function getUsersAvatarsForOrder(): array
-    {
-        return $this->userRepository->getUsersAvatarsForOrder($this);
-    }
-
-    public function getOrderUsers(): Collection
-    {
-        return $this->orderRepository->getOrderUsers($this);
     }
 
     public function getTotalCostWithVatAttribute(): float
@@ -83,5 +63,10 @@ class Order extends Model
             $cost += $item->cost_with_vat;
         }
         return $cost;
+    }
+
+    public function getStatusAttribute(): ?OrderStatus
+    {
+        return $this->status_histories()->latest()->first()?->status;
     }
 }

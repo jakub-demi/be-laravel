@@ -10,7 +10,7 @@ enum VatRate: string
     case TWENTY_PERCENT = "0.2";
 
     /**
-     * Get VatRate cases as array of values.
+     * Get VatRate cases as array of float values.
      *
      * @return array<float>
     */

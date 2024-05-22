@@ -2,7 +2,9 @@
 
 namespace App\Observers;
 
+use App\Enums\OrderStatus;
 use App\Models\Order;
+use App\Models\OrderStatusHistory;
 use Illuminate\Support\Facades\Log;
 
 class OrderObserver
@@ -13,6 +15,18 @@ class OrderObserver
     public function creating(Order $order): void
     {
         $order->order_number = static::generateOrderNumber();
+    }
+
+    /**
+     * Handle the Order "created" event.
+     */
+    public function created(Order $order): void
+    {
+        OrderStatusHistory::create([
+            "order_id" => $order->id,
+            "user_id" => auth()->user()->id,
+            "status" => OrderStatus::PENDING->value,
+        ]);
     }
 
     protected static function generateOrderNumber(): int

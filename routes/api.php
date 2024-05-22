@@ -15,7 +15,10 @@ Route::middleware("auth:sanctum")->group(function () {
 
     //! Orders
     Route::apiResource("orders", OrderController::class)->only(["index", "show", "store"]);
-    Route::get("/orders/{order}/generate-pdf", [OrderController::class, "generatePdf"]);
+    Route::get("/orders/{order}/generate-pdf", [OrderController::class, "generatePdf"])->name("orders.generate-pdf");
+    Route::get("/orders/{order}/status-history", [OrderController::class, "statusHistory"])->name("orders.status-history");
+
+    Route::get("/order-statuses", [OrderController::class, "orderStatuses"])->name("order-statuses");
 
     //! Orders Access Middleware Routes
     Route::middleware("orders-access")->group(function () {
@@ -32,7 +35,7 @@ Route::middleware("auth:sanctum")->group(function () {
     //! Users
     Route::apiResource("users", UserController::class);
 
-    //! Categories
+    //! Order Categories
     Route::apiResource("order-categories", CategoryController::class)->only("index", "show");
 
     //! Admin Access Middleware Routes

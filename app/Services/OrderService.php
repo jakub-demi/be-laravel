@@ -12,7 +12,7 @@ class OrderService
     public function store(array $data): Model|Builder
     {
         $data['due_date'] = Carbon::parse($data['due_date'])->toDateTimeString();
-        $orderUsers = $this->handleData($data);
+        $orderUsers = $this->handleOrderUsers($data);
         $order = Order::create($data);
         $order->users()->attach($orderUsers);
         return $order;
@@ -21,7 +21,7 @@ class OrderService
     public function update(int $id, array $data): Model|Builder
     {
         $order = Order::findOrFail($id);
-        $orderUsers = $this->handleData($data);
+        $orderUsers = $this->handleOrderUsers($data);
         $order->update($data);
         $order->users()->sync($orderUsers);
         return $order;
@@ -36,7 +36,7 @@ class OrderService
         return $orderNumber;
     }
 
-    private function handleData(array &$data): array
+    private function handleOrderUsers(array &$data): array
     {
         $orderUsers = $data["order_users"];
         unset($data["order_users"]);

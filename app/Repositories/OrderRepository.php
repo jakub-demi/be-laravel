@@ -20,8 +20,8 @@ class OrderRepository implements OrderRepositoryInterface
         return Order::where("id", "=", $id)->first();
     }
 
-    public function getOrderUsers(Order $order): Collection
+    public function getStatusHistories(int $id): Collection|array|null
     {
-        return $order->users()->get();
+        return Order::find($id)?->status_histories()->latest()->get();
     }
 }

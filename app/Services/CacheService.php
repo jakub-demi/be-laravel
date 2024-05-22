@@ -15,9 +15,10 @@ class CacheService
      *
      * @param Model $model
      * @param bool|null $deletion
+     * @param float|int $minutes
      * @return void
      */
-    public static function cacheUpdate(Model $model, ?bool $deletion = false): void
+    public static function cacheUpdate(Model $model, ?bool $deletion = false, float|int $minutes = self::CACHING_MINUTES): void
     {
         $class = $model::class;
 
@@ -30,7 +31,7 @@ class CacheService
         if ($deletion) {
             cache()->forget($key);
         } else {
-            cache()->put($key, $model, now()->addMinutes(self::CACHING_MINUTES));
+            cache()->put($key, $model, now()->addMinutes($minutes));
         }
     }
 
