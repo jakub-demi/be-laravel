@@ -38,6 +38,8 @@ class OrderService
 
     private function handleOrderUsers(array &$data): array
     {
+        if (empty($data["order_users"])) return [];
+
         $orderUsers = $data["order_users"];
         unset($data["order_users"]);
 
