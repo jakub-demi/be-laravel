@@ -29,9 +29,4 @@ abstract class TestCase extends BaseTestCase
         $this->actingAs($user, "sanctum");
         return $user;
     }
-
-    public function formatDate(\DateTimeInterface $date): string
-    {
-        return date_format($date, "Y-m-d H:i:s");
-    }
 }

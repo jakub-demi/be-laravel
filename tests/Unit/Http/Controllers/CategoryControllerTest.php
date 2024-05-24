@@ -12,6 +12,26 @@ class CategoryControllerTest extends TestCase
 {
     use RefreshDatabase;
 
+    public function test_index_order_categories()
+    {
+        $this->login();
+
+        Category::factory(4)->create();
+
+        $response = $this->getJson("/api/order-categories");
+        $response->assertStatus(Response::HTTP_OK);
+    }
+
+    public function test_show_order_category()
+    {
+        $this->login();
+
+        $category = Category::factory()->create();
+
+        $response = $this->getJson("/api/order-categories/{$category->id}");
+        $response->assertStatus(Response::HTTP_OK);
+    }
+
     public function test_create_order_category_correct_data()
     {
         $this->login(true);

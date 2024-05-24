@@ -11,6 +11,24 @@ class OrderControllerTest extends TestCase
 {
     use RefreshDatabase;
 
+    public function test_index_orders()
+    {
+        $this->login();
+
+        $response = $this->getJson("/api/orders");
+        $response->assertStatus(Response::HTTP_OK);
+    }
+
+    public function test_show_order()
+    {
+        $this->login();
+
+        $order = Order::factory()->create();
+
+        $response = $this->getJson("/api/orders/{$order->id}");
+        $response->assertStatus(Response::HTTP_OK);
+    }
+
     public function test_create_order_correct_data()
     {
         $this->login();
@@ -105,7 +123,15 @@ class OrderControllerTest extends TestCase
 
         $existingOrder = Order::factory()->create();
 
-        $response = $this->get("/api/orders/{$existingOrder->id}/status-history");
+        $response = $this->getJson("/api/orders/{$existingOrder->id}/status-history");
+        $response->assertStatus(Response::HTTP_OK);
+    }
+
+    public function test_order_statuses()
+    {
+        $this->login();
+
+        $response = $this->getJson("/api/order-statuses");
         $response->assertStatus(Response::HTTP_OK);
     }
 }

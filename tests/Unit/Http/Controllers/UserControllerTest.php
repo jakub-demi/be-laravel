@@ -52,6 +52,26 @@ class UserControllerTest extends TestCase
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
+    public function test_index_users()
+    {
+        $this->login();
+
+        User::factory(4)->create();
+
+        $response = $this->getJson("/api/users");
+        $response->assertStatus(Response::HTTP_OK);
+    }
+
+    public function test_show_user()
+    {
+        $this->login();
+
+        $user = User::factory()->create();
+
+        $response = $this->getJson("/api/users/{$user->id}");
+        $response->assertStatus(Response::HTTP_OK);
+    }
+
     public function test_create_user_correct_data()
     {
         $this->login();
