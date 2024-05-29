@@ -1,5 +1,6 @@
 <?php
 
+use App\Console\Commands\MakePhpUnitTest;
 use App\Http\Middleware\AdminAccessMiddleware;
 use App\Http\Middleware\OrdersAccessMiddleware;
 use Illuminate\Foundation\Application;
@@ -20,6 +21,9 @@ return Application::configure(basePath: dirname(__DIR__))
             "orders-access" => OrdersAccessMiddleware::class,
         ]);
     })
+    ->withCommands([
+        MakePhpUnitTest::class,
+    ])
     ->withExceptions(function (Exceptions $exceptions) {
         //
     })->create();
